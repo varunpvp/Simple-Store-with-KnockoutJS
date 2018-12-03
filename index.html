@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" >
+
+	<title>Simple Store using KnockoutJS</title>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout-validation/2.0.3/knockout.validation.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+    <link rel="stylesheet" href="assets/css/main.css" />
+
+</head>
+<body>
+
+<main class="container" >
+    <h1 class="title" >Jaguar's Store</h1>
+    <hr>
+    <section class="store">
+        <div class="store__items" data-bind="foreach: items" >
+            <div class="store__item">
+                <figure class="store__item-figure" >
+                    <img class="store__item-image" data-bind="attr: {src: image, alt: title}, click: $parent.showLightbox">
+                    <figcaption class="store__item-caption" >
+                        <div class="store__item-info" >
+                            <h4 class="store__item-name" data-bind="text: title" ></h4>
+                            <span>₹</span><span class="store__item-price" data-bind="text: price" ></span>
+                        </div>
+                        <div class="store__item-carter" >
+                            <button class="store__item-dec" data-bind="visible: quantity, click: $parent.decItem" >-</button>
+                            <span class="store__item-quantity" data-bind="visible: quantity, text: quantity" ></span>
+                            <button class="store__item-inc" data-bind="click: $parent.incItem" >+</button>
+                        </div>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <a href="#infoModal" rel="modal:open" class="btn--spec btn--buy-now">Buy now</a>
+
+    <div id="infoModal" class="modal" >
+
+        <h3 class="modal__title" >Cart</h3>
+
+        <div data-bind="visible: cartTotal()" >
+            <table border="1" width="100%" >
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: getItemsInCart">
+                    <tr>
+                        <td data-bind="text: itemName" ></td>
+                        <td data-bind="text: itemQuantity" ></td>
+                        <td data-bind="text: itemPrice" ></td>
+                        <td data-bind="text: itemTotal" ></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>Cart Total: ₹<span data-bind="text: cartTotal" ></span></p>
+
+            <input type="text" class="input-field" placeholder="Yourname" data-bind="value: orderInfo.username" >
+            
+            <input type="text" class="input-field" placeholder="Mobile" data-bind="value: orderInfo.mobile" >
+            
+            <input type="text" class="input-field" placeholder="Email" data-bind="value: orderInfo.email" >
+            
+            
+            <button class="btn--spec" data-bind="click: placeOrder, enable: orderInfo.isValid" >Place Order</button>
+        </div>
+
+        <div data-bind="visible: !cartTotal()" >
+            <p align="center" >Your cart doesn't contain any items yet, go add somethings.</p>
+            <a href="#infoModal" rel="modal:close" class="btn--spec ">Continue Shopping</a>
+        </div>
+
+    </div>
+</main>
+
+<div class="lightbox" data-bind="visible: lightbox.shown" >
+    <div class="lightbox__overlay" data-bind="click: hideLightbox" ></div>
+    <img class="lightbox__image" data-bind="attr: { src: lightbox.image }" >
+</div>
+
+<script type="text/javascript" src="assets/js/main.js"></script>
+
+</body>
+</html>
